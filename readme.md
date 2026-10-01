@@ -8,9 +8,13 @@ The repository contains the FreeCAD design files.
 The design is parametric, so you can customize the jig for your PCB.
 
 The jig has apertures(holes) in which you drop SMD ICs.
-The apertures are the same shape, but slightly larger than their corresponding ICs.
+The apertures are the same shape, but slightly (0.07 mm on each side) 
+larger than their corresponding ICs.
+The apertures are the size of the body of a no-lead SMD,
+or a size that includes the pins, for SMDs having leads for pins.
 The jig holds a solder pasted PCB beneath the holes.
-The jig ensures the pins of the ICs align with their pasted lands.
+The jig helps position each IC over its pasted lands.
+The jig does not compensate for PCB or package inaccuracies.
 
 The jig has beveled ears/handles so you can tilt it up over the pasted ICs 
 and remove the PCB.
@@ -26,7 +30,7 @@ You are only placing a few ICs.
 It is hard to place ICs with fine-pitched, small pins.
 This jig helps you place such chips.
 
-It is easy to hand place discrete components as small as 603.
+It is easy to hand place discrete components as small as 0603.
 There is much tolerance for placing them.
 The reflowed solder pulls the components into alignment
 via surface tension.
@@ -45,8 +49,8 @@ If you drop an IC far from alignment, you may smear the solder paste while nudgi
 If you drop an IC entirely wrong, it might smear the solder paste for other ICs, and the IC might get smeared with solder paste
 
 With this jig:
-- when you drop an IC misaligned, the aperature might guide it into alignment
-- when you are nudging, the aperature keeps you from nudging too far
+- when you drop an IC misaligned, the aperture might guide it into alignment
+- when you are nudging, the aperture keeps you from nudging too far
 - when you drop an IC in totally wrong place, it falls on top of the jig and won't smear any solder paste
 
 With this jig, you still might drop an IC wrong.
@@ -81,12 +85,15 @@ That would require placing ICs on a board just after pasting.
 This design is experimental and has been tested only lightly. 
 Try it to see whether it saves you aggravation.
 
-I have tested it on only two boards. In those tests:
+I have tested it on only two boards, and QFN no-lead packages. 
+In those tests:
 
 - It was relatively straightforward to parameterize.
 - It worked without adjustments for variations in fabrication accuracy.
 
 I have not tested many boards.
+I have not tested the jig works with leaded pin packages,
+but I expect it will.
 The parameter flow may not work correctly for every design.
 
 #### Only one IC
@@ -129,13 +136,16 @@ See [details](#how-to-customize-the-freecad-design-for-your-board)
 ### How to print the jig and check alignment
 
 1. Export the jig body from FreeCAD (select the last item in the tree model and choose the menu item "File>Export" to create e.g. a .3mf file.)
-2. Slice and print the jig.  Reorient the sliced jig so that the top surface is against the printer bed.
-3. Slide the jig over an unpasted PCB and check the alignment.
+The usual item name is "PocketCornerHoles"
+and the usual created file is "SMDPlaceJig-BodyPocketCornerHoles.3mf"
+2. Open the file in your choice of slicer app.  Before slicing, reorient the jig so that the jig's top surface is against the printer's build plate/bed.
+3. Slice and print the jig.
+4. Slide the jig over an unpasted PCB and check the alignment.
 The outline (printed on the silkscreen layer) of each IC should be centered in its corresponding aperture.
 
 If an IC does not align with its aperture, check for:
 
-- Incorrect dimensions from the KiCAD PCB design.
+- Incorrect dimensions from the KiCad PCB design.
 - An inaccurately cut PCB edge.
 - PCB not fully seated upwards in the jig
 - Other inaccuracies in the PCB or jig fabrication.
@@ -144,11 +154,11 @@ If an IC does not align with its aperture, check for:
 
 Use a sharp knife to square up the edges of the apertures.
 The goal is that an aperture lets a component IC fall through it.
-You should dry run (dropping ICs onto an unpaste board)
-to ensure that an IC drops all the way to the PCB
-and is not pinched by the jig.
+You should dry run (dropping ICs onto an unpasted board)
+to ensure that an IC drops all the way to the PCB without binding,
+in other words not pinched by the jig.
 Test that the jig will tilt up without catching the ICs
-and pulling them up with the jig.
+and pulling them up off the PCB.
 
 You need to trim apertures because 3D printers are not accurate enough
 for holes the size of some small component ICs.
@@ -164,29 +174,35 @@ The aperture walls might not be orthogonal because the layer printed on the bed 
 3.  Place a PCB in front of you on a work surface.
 Place the jig further away on the work surface.
 4.  Slide the jig towards you over the PCB.
+The corners of the PCB should appear in two holes of the jig.
 5.  Check alignment.
+The outline of the IC on the silkscreen should be centered in its aperture.
 6.  Pick up an IC, oriented properly, and drop it in its aperture.
-Hold the IC inside the aperture, down as far as flush with the top
-surface of the jig. 
-Then release the IC.
-7.  Ensure the IC is fully contacting the PCB board.
+Hold the IC inside the aperture, down as far as having its topside flush with the top
+surface of the jig.
+The underside of the IC will then be 0.4mm above the paste, for 1 mm high components.
+Now release the IC.
+7.  Ensure the IC is level and fully contacting the paste on the PCB board.
 The top surface of the component should be level,
-0.4 mm below the top surface of the jig.
-If not, nudge it down into the aperature.
+and 0.4 mm below the top surface of the jig, for 1 mm high components.
+If not, nudge it down into the aperture.
 8.  After placing all chips: put your finger on the upper left handle
 and rock the jig back on its far edge, tilting the jig up towards you.
-You must tilt it up since the aperatures must lift over the chips.
+You must tilt it up since the apertures must lift over the chips.
 The jig will no longer slide over the board without hitting the chips.
-9.  Remove the PCB.
-10.  Place other components by hand
-11. Reflow the PCB
+9.  Remove the PCB away from the jig.
+
+Proceed to place other components by hand and reflow the PCB.
 
 ## How to customize the FreeCAD design for your board
 
 Customize the jig for each PCB design.
 To customize the design, change the design's spreadsheet parameters.
 
-### Data flow in the FreeCad design
+The design in the repository was made with FreeCAD v1.0.2.
+You might be able to import it into other CAD apps.
+
+### Data flow in the FreeCAD design
 
 The main sketches near the beginning of the model tree are:
 
@@ -200,11 +216,17 @@ The design copies (references) the sketches into the pads and pockets in the bod
 
 ### Important parameters changed for each PCB board
 
-You measure these from the KiCAD design of the PCB.
-Move the cursor at the UL corner of the PCB and click,
+You measure these from the KiCad design of the PCB.
+
+You should change the grid precision to 0.05 mm in KiCad.
+Every 0.05 mm is significant when working with fine-pitched ICs.
+When measuring, you should move the cursor to the center of line graphics.
+
+To make a measurement,
+move the cursor to the UL corner of the line graphic of the PCB edge outline and click,
 then press the spacebar.
 This changes the origin of the dimensions shown in the status bar.
-Then move the cursor to another location and read
+Then move the cursor to another line graphic location and read
 the delta X and delta Y from the status bar.
 
 PCB dimensions:
@@ -219,8 +241,11 @@ The IC's width and length, from the datasheet of the IC:
 - *ICWid*
 - *ICLen*
 
-Distances from the PCB's UL corner to the IC's UL corner, from the KiCAD design of the PCB.  
-Measure to just inside the upper left (UL) corner of the outline of the IC on the silkscreen layer:
+Distances from the PCB's UL corner to the IC's UL corner, 
+from the KiCad design of the PCB.  
+Measure to just inside the upper left (UL) corner of the ink of the outline of the IC package on the silkscreen layer.
+You should check the KiCad footprint shows the ink for the package outline as described,
+so that the inner edge of the ink meets the outer edge of the package.
 
 - *ICOffsetX*
 - *ICOffsetY*
@@ -239,7 +264,7 @@ You rarely need to change these parameters.
 
 #### PCBTolerance
 
-This is the room the jig allows around the PCB so that
+This is the room the jig allows around (on each side of) the PCB so that
 you can slide the PCB under the jig
 and so that the jig tilts up leaving the PCB on the work surface.
 
@@ -255,6 +280,14 @@ and this jig will have an L-shape to hold the PCB,
 instead of a notch.
 The jig will still need to be tilted,
 but fewer edges of the jig can catch the PCB.
+
+#### IC package tolerance
+The jig has apertures for ICs that are this much larger than the actual IC package,
+on each side.
+This lets the packages fall through the apertures with binding,
+and lets the jig lift up without catching the ICs.
+
+See the parameter *ICHoleTolerance*
 
 #### Paste thickness
 The jig assumes a paste thickness of 3 or 4 mil (roughly 0.08 or 0.1 mm).
@@ -277,7 +310,7 @@ This determines the thickness of the plate with apertures above the PCB.
 See the *'ComponentHeight* parameter.
 
 The height of the jig is the sum
-*PCBDepth + PasteHeight + PasteClearance + ComponentHeight*
+*PCBHeight + PasteHeight + PasteClearance + ComponentHeight*
 
 #### Jig margin
 
@@ -313,16 +346,22 @@ The parameters currently use approximately 0.05 mm precision (one or two digits
 after the decimal point). You can enter more precise values, but doing so may
 not help unless the fabrication and measurement processes are equally precise.
 
-A 3D printer is generally accurate to about 0.05 mm. Accuracy may be worse,
-for example, if the plastic shrinks significantly as it cools.
+I have found that generally a 3D printer is accurate to about 0.05 mm. 
+Accuracy may be worse, on different printers or plastics.
+Some plastics shrink significantly as they cool.
 
 This design appears to work with pads as small as 0.3 mm.
 
 The design allows 0.05 mm tolerance for centering the PCB loosely
 and 0.07 mm tolerance for centering the IC loosely in the aperture.
-So the expected maximum error is 0.12 mm,
-meaning that an IC pin placed with this jig might be a third off its land,
-for a 0.3 mm pin and land.
-Any inaccuracies in fabrication of the PCB add to the error.
+So loosely speaking the expected maximum error is 0.12 mm,
+which is 40% of a 0.3 mm pin and land.
+So an IC pin placed with this jig might overlap its land by only 60%.
+This is the worst case, when the PCB and aperture are in error in opposite directions.
+More typically, the errors will counteract and the total error will be less.
+Any inaccuracies in fabrication of the PCB add to the error;
+the 0.12 mm error estimate is not a complete upper bound.
+
 This total error is likely to be as small as you can achieve placing
 ICs by hand without the jig.
+And again, the SMD reflow process allows for such errors.
