@@ -19,6 +19,18 @@ The jig does not compensate for PCB or package inaccuracies.
 The jig has beveled ears/handles so you can tilt it up over the pasted ICs 
 and remove the PCB.
 
+## Demonstration
+
+![Placing a 3x4 mm QFN BQ25570 chip](SMDPlacingJigPlace.JPG)
+
+Placing a chip in the jig.  The PCB would normally be pasted already.  The aperture has not been trimmed yet and has rounded corners.
+
+![Removing a PCB from the jig](SMDPlacingJigRemove.JPG)
+
+Rocking up the jig to remove the PCB.  If you zoom in, you can see the chip is not placed perfectly, but slightly twisted.  It probably will reflow correctly.  The jig is fiddly to prepare, and you must still use care.  But things seem to go wrong less often than without the jig.
+
+The PCB is a power supply for a solar mobile artwork (Solabile), using a TI BQ25570 energy harvester IC.  The board takes nine more discretes, which I hand place after placing the one IC using the jig,
+
 ## Context
 
 You are placing chips on PCB boards by hand.
