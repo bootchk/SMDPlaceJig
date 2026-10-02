@@ -19,6 +19,27 @@ The jig does not compensate for PCB or package inaccuracies.
 The jig has beveled ears/handles so you can tilt it up over the pasted ICs 
 and remove the PCB.
 
+### Variations
+
+The design has two variations:
+
+1. with a notch to hold the PCB
+2. with two L-shaped bodies that hold the PCB
+
+The first variation has a tolerance around the PCB,
+so it holds the PCB looser and with less accuracy.
+The second variation seems to hold the PCB with more accuracy.
+
+Each variation is a separate body in the FreeCAD design
+but they share the spreadsheet and some sketches.
+
+The second variation also requires a lower-right(LR) body
+from a [solder pasting jig](https://github.com/bootchk/SolderPastingJig).
+The second variation also has holes in the corners of the
+aperture for the IC, so you don't need to square up the corners.
+You still need to check that the aperture for the IC
+lets the IC fall through and does not bind the IC when tilting the jig.
+
 ## Demonstration
 
 ![Placing a 3x4 mm QFN BQ25570 chip](SMDPlacingJigPlace.JPG)
@@ -29,7 +50,15 @@ Placing a chip in the jig.  The PCB would normally be pasted already.  The apert
 
 Rocking up the jig to remove the PCB.  If you zoom in, you can see the chip is not placed perfectly, but slightly twisted.  It probably will reflow correctly.  The jig is fiddly to prepare, and you must still use care.  But things seem to go wrong less often than without the jig.
 
-The PCB is a power supply for a solar mobile artwork (Solabile), using a TI BQ25570 energy harvester IC.  The board takes nine more discretes, which I hand place after placing the one IC using the jig,
+The PCB is a [power supply for a solar mobile artwork](https://github.com/bootchk/BQ2r2) (Solabile), using a TI BQ25570 energy harvester IC.
+The PCB takes nine more discretes, which I hand place after placing the one IC using the jig.
+
+![Variant 2 of the jig](SMDPlacingVariant2.JPG)
+
+This is the second variant, where the jig is L-shaped and presses the PCB
+against a separate L-shape pinned to the work surface.
+It seems better than the first variant
+but is still fiddly and could use more improvements.
 
 ## Context
 
@@ -70,7 +99,7 @@ It sometimes happens that only one corner or side of the IC is in the aperture.
 You still might need to nudge the IC into the aperture.
 But the aperture also guides your nudging.
 
-## The strategy behind this jig
+## A strategy behind this jig
 
 As with many endeavors, you should attempt the hardest things first,
 the things most likely to fail.
@@ -85,12 +114,7 @@ and then you place the easy parts by hand.
 
 See [a jig for pasting a PCB for SMD devices](https://github.com/bootchk/SolderPastingJig)
 
-I plan to combine these two jigs.
-This jig slides orthogonally over a PCB and must allow room for sliding.
-If combined, this jig would slide diagonally and clamp the PCB tightly
-to a lower right (LR) jig body.
-That would give more accuracy.
-That would require placing ICs on a board just after pasting.
+The second variation works with the lower right body of that pasting jig.
 
 ## Status and caveats
 
@@ -174,8 +198,9 @@ and pulling them up off the PCB.
 
 You need to trim apertures because 3D printers are not accurate enough
 for holes the size of some small component ICs.
-The apertures will usually have rounded corners.
-The apertures are usually too small because the plastic shrinks.
+The apertures might have rounded corners.
+The apertures might be too small because the plastic shrinks
+(although the parameter *ICHoleTolerance* partly accounts for that.)
 The aperture walls might not be orthogonal because the layer printed on the bed squeezes out.
 
 ### How to use the jig to place components
@@ -202,6 +227,7 @@ If not, nudge it down into the aperture.
 and rock the jig back on its far edge, tilting the jig up towards you.
 You must tilt it up since the apertures must lift over the chips.
 The jig will no longer slide over the board without hitting the chips.
+The IC sticks to the paste and should resist uplift by the jig.
 9.  Remove the PCB away from the jig.
 
 Proceed to place other components by hand and reflow the PCB.
@@ -216,15 +242,19 @@ You might be able to import it into other CAD apps.
 
 ### Data flow in the FreeCAD design
 
-The main sketches near the beginning of the model tree are:
+Main sketches are in a group (folder) of the document.
 
 - PCB rect
 - IC rect
-- Base (jig frame) edge rect
+- relief holes at the corners of the IC
 
-The design's spreadsheet controls the dimensions of these sketches.
+There is a separate body for each variant.
+You only need print the one you want to try.
 
-The design copies (references) the sketches into the pads and pockets in the body of the jig.
+The design's spreadsheet controls the dimensions of most sketches.
+
+Each body also has sketches early in the model tree.
+The design carbon copies (references) sketches into the pads and pockets in the body of the jig.
 
 ### Important parameters changed for each PCB board
 
