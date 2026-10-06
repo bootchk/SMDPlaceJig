@@ -302,9 +302,10 @@ The IC's width and length, from the datasheet of the IC:
 
 Distances from the PCB's UL corner to the IC's UL corner, 
 from the KiCad design of the PCB.  
-Measure to just inside the upper left (UL) corner of the ink of the outline of the IC package on the silkscreen layer.
-You should check the KiCad footprint shows the ink for the package outline as described,
-so that the inner edge of the ink meets the outer edge of the package.
+Measure to center of the graphic line
+of the upper left (UL) corner of the ink of the outline of the IC package on the silkscreen layer.
+You should check the KiCad footprint shows the ink for the package outline as described:
+the center of the graphic line is is at the outer edge of the package.
 
 - *ICOffsetX*
 - *ICOffsetY*
