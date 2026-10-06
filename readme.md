@@ -132,9 +132,12 @@ I have not tested the jig works with leaded pin packages,
 but I expect it will.
 The parameter flow may not work correctly for every design.
 
-#### Only one IC
-The design only has one IC.
+#### Only a few ICs
+The design only has apertures for two ICs.
 The design does not have apertures for discretes (which I place by hand.)
+
+When you only have one IC, in FreeCAD, set the "suppress" property of the IC pockets to "true."
+
 You can modify the FreeCAD design 
 if you want to place more ICs
 or want to place discretes using the jig.
