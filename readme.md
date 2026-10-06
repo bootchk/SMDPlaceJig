@@ -132,6 +132,20 @@ I have not tested the jig works with leaded pin packages,
 but I expect it will.
 The parameter flow may not work correctly for every design.
 
+#### Throws  "Link(s) ... go out of the allowed scope" warnings
+
+The FreeCAD design throws many of these warnings.
+They mean that the body named "BodyEllJig" 
+references the sketch named "SketchPCB" that is in global (document) scope.
+That is, a part references (as external geometry) 
+sketches that are not contained in the part.
+The internet says this could lead to topological naming problems.
+
+To fix it, the part should use a Binder to the sketch,
+and the sketches in the part should use the Binder as external geometry,
+instead of the global sketch.
+I learned that late, and it is too much trouble to fix.
+
 #### Only a few ICs
 The design only has apertures for two ICs.
 The design does not have apertures for discretes (which I place by hand.)
